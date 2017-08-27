@@ -2,44 +2,56 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const logger     = require('morgan');
 
-const WDS        = require('webpack-dev-server');
-const webpack    = require('webpack');
-
 const crawler    = require('./crawler');
+
+// const pg = require('pg');
 
 const api = require('./api');
 
 // Set up the express app
 const app = express();
+
 const router = express.Router();
 
-const { Client } = require('pg');
+/*
+connectDB();
 
-const connectionString = 'postgresql://jei:1234@localhost/dunkirk';
+async function connectDB() {
 
-const client = new Client(connectionString);
+  const connectionString = process.env.DATABASE_URL || 'postgresql://jei:1234@localhost/dunkirk';
 
-await client.connect();
+  const client = new pg.Client(connectionString);
 
-const res = await client.query('SELECT $1::text as message', ['Hello world!']);
+  await client.connect();
 
-console.log(res.rows[0].message) // Hello world!
+  const res = await client.query('SELECT $1::text as message', ['Hello world!']);
 
-await client.end();
+  console.log(res.rows[0].message); // Hello world!
+
+  await client.end();
+
+};
+*/
 
 let port = 3000;
-let devPort = 4000;
+
+let DEV_PORT = 4000;
 
 if (process.env.NODE_ENV == 'development') {
-  console.log('Server is running on development mode');
 
-  const config = require('../webpack.dev.config');
-  let compiler = webpack(config);
-  let devServer = new WDS(compiler, config.devServer);
-  devServer.listen(devPort, () => {
-    console.log('webpack-dev-server is listening on port', devPort);
+  const Webpack = require('webpack');
+  const WebpackDevServer = require('webpack-dev-server');
+  const webpackConfig = require('../webpack.dev.config')
+
+  const compiler = Webpack(webpackConfig);
+  const devServer = new WebpackDevServer(compiler, webpackConfig.devServer);
+
+  // dev-server open
+  devServer.listen(DEV_PORT, () => {
+    console.log('webpack-dev-server is listening on port', DEV_PORT);
   });
 }
+
 // Log requests to the console.
 app.use(logger('dev'));
 

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 
+import Header from './components/Header';
+import Form from './containers/Form';
+import List from './containers/List';
+
 class App extends Component {
+
   render() {
     return (
       <div>
-        <form action="/ticketing" method="POST">
-          <input type="text" name="kk" value="jaekwnag"/>
-          <input type="text" name="tt" value="hihi"/>
-          <button type="submit">OK!</button>
-        </form>
+        <Header/>
+        <Form/>
+        <List/>
       </div>
-    )
+   )
   }
 }
 
