@@ -2,7 +2,7 @@
   "name": "dunkirk",
   "version": "1.0.0",
   "scripts": {
-    "dev": "NODE_ENV=development node ./server/index.js"
+    "dev": "NODE_ENV=development NODE_PATH=src node ./server/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -11,10 +11,12 @@
     "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.2",
     "cron": "^1.2.1",
+    "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "moment": "^2.18.1",
+    "mongoose": "^4.11.10",
     "morgan": "^1.8.2",
-    "pg": "^7.2.0",
+    "open-color": "^1.5.1",
     "phantom": "^4.0.5",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

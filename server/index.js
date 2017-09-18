@@ -1,37 +1,27 @@
 const express    = require('express');
-const bodyParser = require('body-parser');
 const logger     = require('morgan');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-const crawler    = require('./crawler');
-
-// const pg = require('pg');
-
+const app = express();
 const api = require('./api');
 
-// Set up the express app
-const app = express();
+mongoose.Promise = global.Promise;
 
-const router = express.Router();
+// var URI = `mongodb://silver889:silver889@ds133084.mlab.com:33084/dunkirk`;
 
-/*
-connectDB();
+var URI = 'mongodb://localhost/dunkirk';
 
-async function connectDB() {
+mongoose.connect(URI).then(
+  (response) => {
+    console.log('Successfully connected to mongodb');
+  }
+).catch(e => {
+  console.error(e);
+});
 
-  const connectionString = process.env.DATABASE_URL || 'postgresql://jei:1234@localhost/dunkirk';
 
-  const client = new pg.Client(connectionString);
 
-  await client.connect();
-
-  const res = await client.query('SELECT $1::text as message', ['Hello world!']);
-
-  console.log(res.rows[0].message); // Hello world!
-
-  await client.end();
-
-};
-*/
 
 let port = 3000;
 
@@ -41,7 +31,7 @@ if (process.env.NODE_ENV == 'development') {
 
   const Webpack = require('webpack');
   const WebpackDevServer = require('webpack-dev-server');
-  const webpackConfig = require('../webpack.dev.config')
+  const webpackConfig = require('../webpack.dev.config');
 
   const compiler = Webpack(webpackConfig);
   const devServer = new WebpackDevServer(compiler, webpackConfig.devServer);
@@ -59,33 +49,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
 app.use('/', express.static(__dirname + '/../public'));
 
-// Setup a default catch-all route that sends back a welcome message in JSON format.
+app.use('/api', api);
+
+//Setup a default catch-all route that sends back a welcome message in JSON format.
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
-
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-});
-
-app.post('/ticketing', (req, res) => {
-
-  var data = req.body;
-
-  if (Object.keys(data).length === 0) return;
-
-  // 1. job 생성
-  const job = crawler.create(data);
-
-  // 2. job 실행
-  job.start();
-
-  return res.send(data);
-
-});
 
 app.listen(port, () => {
   console.log('Express listening on port', port);

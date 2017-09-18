@@ -16,6 +16,7 @@ module.exports = {
     './src/index.js',
     // the entry point of our app
   ],
+  devtool: 'source-map',
   output: {
     filename: 'bundle.js',
     path: '/'

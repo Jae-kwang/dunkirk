@@ -1,7 +1,7 @@
 const request = require('request');
 const phantom = require('phantom');
 const cheerio = require('cheerio');
-const CronJob = require('cron').CronJob;
+const { CronJob } = require('cron');
 
 const hook = require('./hook');
 
@@ -16,6 +16,8 @@ String.prototype.changeDateFormat = function() {
 
 exports.create = (data) => {
 
+  console.log('create!');
+  // 5분에 한번씩 작업
   return new CronJob({
     cronTime: '*5 * * * *',
     onTick: function() {
@@ -27,9 +29,13 @@ exports.create = (data) => {
 
 };
 
+const CGV_URL = 'http://m.cgv.co.kr/Schedule';
+
 async function worker (data, job) {
 
-  // 1. 오픈된 날짜 리스트 얻어오기
+  console.log('worker!');
+
+  // 1. 현재 기준으로 오픈된 영화 상영 날짜 리스트 얻어오기
   const dateList = await getTicketOpenDate();
 
   // 2. 날짜별로 입력받은 영화 검색
@@ -37,21 +43,29 @@ async function worker (data, job) {
 
 };
 
-async function getTicketOpenDate() {
-  const url = 'http://m.cgv.co.kr/Schedule/?tc=0013';
+
+// 해당 페이지를 얻어오기 위한 selector와 instance를 얻어옴.
+async function getPage(url) {
 
   const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
   const page     = await instance.createPage();
   const status   = await page.open(url);
   const content  = await page.property('content');
 
-  const $ = cheerio.load(content);
+  return {
+    '$' : cheerio.load(content),
+    instance
+  };
+}
 
-  const $dateList = $('.date');
+async function getTicketOpenDate() {
+  console.log('getTicketOpenDate!');
+
+  const { $ , instance }  = await getPage(CGV_URL);
 
   let dateList = [];
 
-  $dateList.each(function() {
+  $('.date').each(function() {
     dateList.push($(this).text().trim().changeDateFormat());
   });
 
@@ -61,6 +75,7 @@ async function getTicketOpenDate() {
     if (a.indexOf(b) < 0) a.push(b);
     return a;
   },[]);
+
 };
 
 
@@ -75,12 +90,7 @@ async function checkMoveByDate(info) {
     console.log('date', date);
     const url = 'http://m.cgv.co.kr/Schedule/?tc=0013&ymd=' + date;
 
-    const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
-    const page     = await instance.createPage();
-    const status   = await page.open(url);
-    const content  = await page.property('content');
-
-    const $ = cheerio.load(content);
+    const { $ , instance }  = await getPage(url);
 
      const $movieTime = $('.movieTime');
 
@@ -90,11 +100,11 @@ async function checkMoveByDate(info) {
 
       let movieTitle = $(this).find(".tit").text().trim();
 
-      console.log('movieTitle', movieTitle);
-      console.log('data.movie_name', data.movie_name);
+      // console.log('movieTitle', movieTitle);
+      // console.log('data.movie_name', data.movie_name);
       
-      if (movieTitle == data.movie_name) {
-        console.log(`${date}에 ${data.movie_name}이 개봉! 종료합니다.`);
+      if (movieTitle == data.title) {
+        console.log(`${date}에 ${data.title}이 개봉! 종료합니다.`);
 
         job.stop();
         hook.send({date, movie_name: data.movie_name});

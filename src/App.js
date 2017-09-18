@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import Header from './components/Header';
-import Form from './containers/Form';
-import List from './containers/List';
+import FormContainer from './containers/FormContainer';
+import ListContainer from './containers/ListContainer';
 
 class App extends Component {
 
@@ -10,8 +10,8 @@ class App extends Component {
     return (
       <div>
         <Header/>
-        <Form/>
-        <List/>
+        <FormContainer/>
+        <ListContainer/>
       </div>
    )
   }
