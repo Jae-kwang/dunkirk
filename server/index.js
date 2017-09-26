@@ -31,7 +31,7 @@ if (process.env.NODE_ENV == 'development') {
 
   const Webpack = require('webpack');
   const WebpackDevServer = require('webpack-dev-server');
-  const webpackConfig = require('../webpack.dev.config');
+  const webpackConfig = require('../webpack.dev');
 
   const compiler = Webpack(webpackConfig);
   const devServer = new WebpackDevServer(compiler, webpackConfig.devServer);
@@ -49,7 +49,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', express.static(__dirname + '/../public'));
+app.use('/', express.static(__dirname + '/../dist'));
 
 app.use('/api', api);
 

@@ -1,4 +1,10 @@
 {
-  "presets": ["es2015", "react"],
-  "plugins": ["react-hot-loader/babel"]
+  "presets": [
+    ['react'],  // React의 JSX를 변환하기 위한 설정
+    ["es2015"], // ES2015 -> ES5로 변환하는데 필요한 설정
+    ["stage-0"] // TC39에서 ECMAScript 표준을 여러 단계로 나눈 설정(https://blog.outsider.ne.kr/1176)
+  ],
+  "plugins": [
+    "react-hot-loader/babel"
+  ]
 }
