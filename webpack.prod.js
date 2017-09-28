@@ -6,7 +6,7 @@ const common = require('./webpack.common.js');
 module.exports = merge(common, {
   entry: {
     dunkirk_js : [
-      './src/reset.css',
+      './src/normalize.css',
       './src/index.js',
     ]
   },

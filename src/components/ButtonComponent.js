@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 
-const StyledBtn = styled.button`
+const Button = styled.button`
   border: 1px solid ${oc.gray[7]};
   border-radius: 4px;
   padding: 0.25em 1em;
@@ -12,10 +12,10 @@ const StyledBtn = styled.button`
   font-size: 16px;
 `;
 
-const Button = (props) => {
+const ButtonComponent = (props) => {
   return (
-    <StyledBtn>{props.children}</StyledBtn>
+    <Button>{props.children}</Button>
   )
 };
 
-export default Button;
+export default ButtonComponent;

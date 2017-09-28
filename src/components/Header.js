@@ -4,12 +4,16 @@ import oc from 'open-color';
 
 const Wrapper = styled.header`
   background: ${oc.gray[7]};
-  color: white; 
   text-align: center;
+  
+  h1 {
+    color: white; 
+    margin: 0 !important;
+    padding: 0.5rem 0;
+  }
 `;
 
 class Header extends Component {
-
   render () {
     return (
       <Wrapper>
@@ -17,7 +21,6 @@ class Header extends Component {
       </Wrapper>
     );
   }
-
 }
 
 export default Header;

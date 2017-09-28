@@ -20,11 +20,20 @@ router.get('/list', async (req, res) => {
 
 });
 
-router.post('/ticketing', (req, res) => {
+router.post('/ticketing', async (req, res) => {
 
   var data = req.body;
 
-  if (Object.keys(data).length === 0) return;
+  // check value
+  var hasValue = true;
+  for (var i in data) {
+    if (data[i] === '') {
+      hasValue = false;
+      break;
+    }
+  }
+
+  if (!hasValue) return;
 
   // 1. job 생성
   const job = crawler.create(data);
@@ -32,21 +41,8 @@ router.post('/ticketing', (req, res) => {
   // 2. job 실행
   job.start();
 
-  return res.send(data);
-
-});
-
-
-router.post('/save', async (req, res) => {
-
-  // 중복 체크
-
-  var { title, theater } = req.body;
-
-  const item = new CrawlItem({
-    title,
-    theater
-  });
+  // 3. DB 저장
+  const item = new CrawlItem(data);
 
   try {
     await item.save();
@@ -55,7 +51,8 @@ router.post('/save', async (req, res) => {
     res.send(result);
   }
 
-  res.send(item);
+  return res.send(data);
+
 });
 
 module.exports = router;
