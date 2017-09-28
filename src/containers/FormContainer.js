@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import Section from '../components/Section';
+
 import ButtonComponent from '../components/ButtonComponent';
 import InputComponent from '../components/InputComponent';
-import SelectComponent from '../components/SelectComponent';
+import RadioComponent from '../components/RadioComponent';
 
 class FormContainer extends Component {
 
@@ -41,14 +43,24 @@ class FormContainer extends Component {
   render() {
 
     return (
-      <div>
-        <header>상영관 알림 예약</header>
-        <form action="/ticketing" method="POST" onSubmit={this.handleSubmit}>
-          <SelectComponent id="theater" label="영화관" name="theater" value={this.state.theater} onChange={this.handleChange}/>
-          <InputComponent id="title" label="영화제목" type="text" name="title" value={this.state.title} onChange={this.handleChange}/>
+      <Section header="상영관 알림 예약">
+        <form onSubmit={this.handleSubmit}>
+          <RadioComponent
+            id="theater"
+            label="영화관"
+            name="theater"
+            value={this.state.theater}
+            onChange={this.handleChange}/>
+          <InputComponent
+            type="text"
+            id="title"
+            label="영화제목"
+            name="title"
+            value={this.state.title}
+            onChange={this.handleChange}/>
           <ButtonComponent>등록</ButtonComponent>
         </form>
-      </div>
+      </Section>
     )
   }
 };

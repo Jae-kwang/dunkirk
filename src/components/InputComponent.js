@@ -3,27 +3,33 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 
-// https://scotch.io/tutorials/google-material-design-input-boxes-in-css3
+const Wrapper = styled.div`
+  margin-top: 1.2rem;
+`;
+
 const Label = styled.label`
-  color: ${oc.gray[9]};
-  display: block; 
+  color: ${oc.gray[7]};
+  font-size: 1.3rem;
+  display: inline-block;
+  margin-bottom: 0.4rem;
 `;
 
 const Input = styled.input`
-  padding: 10px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  margin-bottom: 0.4rem;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 2px;
   outline: none;
-   
-  &:focus {
-    border: solid 1px #707070;
-    box-shadow: 0 0 5px 1px #969696;
-  }
 `;
 
 const InputComponent = (props) => {
   return (
-  <div>
+  <Wrapper>
     <Label for={props.id}>{props.label}</Label>
     <Input
       id={props.id}
@@ -32,7 +38,7 @@ const InputComponent = (props) => {
       value={props.value}
       onChange={props.onChange}
     ></Input>
-  </div>
+  </Wrapper>
   )
 };
 

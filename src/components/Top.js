@@ -13,7 +13,7 @@ const Wrapper = styled.header`
   }
 `;
 
-class Header extends Component {
+class Top extends Component {
   render () {
     return (
       <Wrapper>
@@ -23,4 +23,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default Top;
