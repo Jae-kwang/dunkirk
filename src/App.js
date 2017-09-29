@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import oc from 'open-color';
-
-import Top from './components/Top';
-
-import FormContainer from './containers/FormContainer';
-import ListContainer from './containers/ListContainer';
+import { Top } from 'components';
+import { FormContainer, ListContainer} from 'containers';
 
 class App extends Component {
   render() {

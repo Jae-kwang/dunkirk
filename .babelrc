@@ -5,6 +5,6 @@
     ["stage-0"] // TC39에서 ECMAScript 표준을 여러 단계로 나눈 설정(https://blog.outsider.ne.kr/1176)
   ],
   "plugins": [
-    "react-hot-loader/babel"
+    "react-hot-loader/babel",
   ]
 }

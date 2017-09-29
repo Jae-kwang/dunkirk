@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import oc from 'open-color';
-import PropTypes from 'prop-types';
 
-import Section from '../components/Section';
-
-import Item from '../components/item';
-
-const Wrapper = styled.div`
-  margin-top: 1.2rem;
-`;
+import { Section, Item } from 'components';
 
 class ListContainer extends Component {
 

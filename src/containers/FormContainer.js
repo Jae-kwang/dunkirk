@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
-import Section from '../components/Section';
-
-import ButtonComponent from '../components/ButtonComponent';
-import InputComponent from '../components/InputComponent';
-import RadioComponent from '../components/RadioComponent';
+import { ButtonComponent, InputComponent, RadioComponent, Section } from 'components';
 
 class FormContainer extends Component {
 
